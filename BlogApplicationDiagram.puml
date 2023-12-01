@@ -1,0 +1,122 @@
+@startuml
+
+package training.blog.domain{
+
+class User {
+- id: long
+}
+
+class Credentials {
+- loginname: String
+- password: String
+}
+
+class Profile{
+- name: String
+- dateOfBirth: LocalDate
+- location: String
+- quote: String
+- joinedAt: LocalDate
+}
+
+class BlogPost {
+- id: long
+- title: String
+- content: String
+- createdAt: LocalDateTime
+}
+
+class Following {
+- followedAt: LocalDateTime
+}
+
+Credentials "1" <-right-o User :credentials
+Profile "1" <-left-o User :profile
+BlogPost -up-> "1" User :author
+BlogPost "0..n" <--up-o User :blogPosts
+Following -down-> "1" User :follower
+Following -down--> "1" User :followed
+
+}
+
+@enduml
+
+@startuml
+
+package training.blog.service{
+
+interface BlogService{
++ getBlogPostsFromFollowedUsers(user: User): Map<User, List<BlogPost>>
++ createBlogPost(user: User, blogPost: BlogPost): void
+}
+
+interface UserService{
++ authenticate(credentials: Credentials): User
++ searchUser(fullName: String): Optional<User>
++ getAllFollowers(user: User): List<User>
++ getAllFollowed(user: User): List<User>
++ followUser(follower: User, followed: User): void
+}
+
+class DefaultBlogService{
++ DefaultBlogService(dataStore: DataStore)
+}
+
+class DefaultUserService{
++ DefaultUserService(dataStore: DataStore)
+}
+
+BlogService <|.. DefaultBlogService
+UserService <|.. DefaultUserService
+
+
+}
+
+package training.blog.persistence{
+
+interface DataStore{
++ init(): void
++ getAllUsers(): List<User>
++ getAllFollowings(): List<Following>
+}
+
+class FileDataStore{
+- basePath: Path
+- users: List<User>
+- followings: List<Following>
++ FileDataStore(basePath: Path)
+}
+
+DataStore <|.. FileDataStore
+
+}
+
+DataStore "1"<--up DefaultBlogService
+DataStore "1"<--up DefaultUserService
+
+@enduml
+
+@startuml
+
+package training.blog.view{
+
+interface BlogView{
++ readCredentials(): Credentials
++ printWelcomeMessage(user: User): void
++ selectActivity(): int
++ printAllFollowers(followers: List<User>): void
++ printAllFollowed(followed: List<User>): void
++ readSearchedUser(): String
++ printUserProfile(user: User, numberOfFollowings: int, numberOfFollowers: int): boolean
++ printSuccessfulFollowMessage(followed: User): void
++ printBlogsFromMyFollowings(followings: List<User>): void
++ readBlogPost(): BlogPost
++ quitApplication(user: User): boolean
++ printError(message: String): void
+}
+
+BlogView <|.. ConsoleBlogView
+
+}
+
+@enduml

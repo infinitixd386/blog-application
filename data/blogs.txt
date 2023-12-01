@@ -1,0 +1,25 @@
+---
+id: 1
+author: 1
+postdate: 2020.10.10.
+title:  Programozási nyelvek
+content: Sziasztok, ez az első blogom, azt kérdezném tőletek milyen programozási nyelvekben vagytok otthon? Én személy szerint Java-ban.
+---
+id: 2
+author: 2
+postdate: 2021.09.09.
+title:  algebra...
+content: miért kell az algebrának ilyen nehéznek lennie...
+---
+id: 3
+author: 3
+postdate: 2022.02.02.
+title:  gaming
+content: az elmúlt pár évben, szinte az összes AAA játék nagy csalódás volt...
+---
+id: 4
+author: 3
+postdate: 2022.08.08.
+title:  Foci a haverokkal
+content: Ma nagyon jó meccset játszottunk a haverokkal a stadionban, nem tudom mennyi lett a vége, de nyertünk :D
+---
